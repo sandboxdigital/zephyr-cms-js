@@ -1,0 +1,112 @@
+
+/*
+.clear{display:inline-block;}
+.clear:after{display:block;visibility:hidden;clear:both;height:0;content:".";}
+*/
+
+.zph-cms-row {
+
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.cms-form {
+    //padding: 5px;
+    margin: 0;
+    padding: 15px 15px 0 15px;
+    background-color: #f9f9f9;
+
+    .cms-form {
+        padding: 0;
+    }
+
+    .cms-row,
+    .cms-row {
+        clear: both;
+        border: 1px solid #e9e9e9;
+        margin-bottom: 8px;
+        //padding-top: 10px;
+        //background-color: rgba(0,0,0,0.05);
+        background-color: #ffffff;
+        border-radius: $border-radius;
+    }
+
+    .cms-label {
+        //float: left;
+        //width: 200px;
+        padding: 5px 8px;
+        margin: 0;
+        padding-bottom: 0px;
+        margin-bottom: 2px;
+        padding-top: 5px;
+        box-sizing: border-box;
+
+        label {
+            //font-family: Verdana;
+            //font-weight: bold;
+            text-transform: capitalize;
+            font-weight: bold;
+            margin-bottom: 0;
+            font-size: 0.8em;
+        }
+    }
+
+    .cms-field {
+        @include clearfix();
+        padding: 5px 8px;
+        margin: 0;
+        margin-bottom: 5px;
+        //padding-left: 210px;
+        box-sizing: border-box;
+        position: relative;
+
+        .cms-text {
+            width: 100%;
+            //background-color: rgba(255,255,255,0.5);
+        }
+
+        .toolbar {
+            position: absolute;
+            top: -23px;
+            right: 13px;
+        }
+    }
+
+
+    .cms-row-buttons {
+        padding: 8px;
+        margin-left: -15px;
+        margin-right: -15px;
+        margin-bottom: 0;
+        margin-top: 15px;
+        background-color: #efefef;
+        width: 100%;
+
+        .cms-btn {
+            background-color: #ccc;
+        }
+    }
+
+    .cms-row-buttons-fixed {
+        position: fixed;
+        bottom: 0;
+        z-index: 100;
+        width: inherit;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.cms-row-buttons {
+    .cms-message {
+        margin-left: 10px;
+        font-size: 1rem;
+    }
+}

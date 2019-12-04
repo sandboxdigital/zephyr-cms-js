@@ -1,0 +1,88 @@
+input[type='submit'],
+button,
+a {
+    &.cms-btn {
+        border-radius: $button-radius;
+        background-color: #e9e9e9;
+        -webkit-appearance: none;
+        padding: 8px 12px;
+        border: 1px solid #e9e9e9;
+        cursor: pointer;
+        font-size: .8em;
+    }
+}
+
+$w:30px;
+.cms-btn-icon {
+    display: inline-block;
+    width: $w;
+    height: $w;
+    line-height: $w - 2px;
+    text-align: center;
+    //border: 1px solid #ddd;
+    background-color: rgba(0,0,0,0.0);
+    color: #666;
+    border-radius: 0px;
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        background-color: rgba(0,0,0,0.05);
+    }
+
+    .oi {
+        font-size: 14px;
+
+        &.oi-plus {
+            font-size: 12px;
+        }
+    }
+
+    i {
+        position: relative;
+        top:2px;
+    }
+
+    &.btn-cms-default {
+        border-radius: 3px;
+        background-color: #e9e9e9;
+        &:hover {
+            background-color: #e0e0e0;
+        }
+
+    }
+}
+
+
+.btn-round-delete {
+    background-color: #e3342f;
+    border: 0px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    padding: 0;
+
+    span {
+        color:white;
+        @include vertical-center;
+    }
+}
+
+.diag {
+    position: relative;
+}
+.diag:before {
+    position: absolute;
+    content: "";
+    left: 5px;
+    top: 50%;
+    right: 5px;
+    border-top: 1px solid;
+    border-color: inherit;
+
+    -webkit-transform:rotate(-45deg);
+    -moz-transform:rotate(-45deg);
+    -ms-transform:rotate(-45deg);
+    -o-transform:rotate(-45deg);
+    transform:rotate(-45deg);
+}

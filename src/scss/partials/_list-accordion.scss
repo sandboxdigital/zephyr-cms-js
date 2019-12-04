@@ -1,0 +1,142 @@
+
+.list-accordion {
+    max-width: 600px;
+    //background: #efefef;
+    list-style: none;
+    padding: 0px;
+
+    li {
+        user-select: none;
+        span {
+            float: right;
+        }
+    }
+
+    $leftPadding:20px;
+    $iconWidth:28px;
+
+    label {
+        position: relative;
+        display: block;
+        padding: 8px 18px 8px $iconWidth;
+        color: #000;
+        cursor: pointer;
+        margin-bottom: 0px;
+
+        span.menu {
+            float: right;
+            color: #828282;
+        }
+
+        .title {
+            font-size: .9em;
+        }
+
+        .cms-btn-icon {
+            display: none;
+            position: absolute;
+            top: 9px;
+            right: 8px;
+            padding: 8px;
+        }
+
+        &:hover {
+            background-color: rgba(0,0,0,0.05);
+
+            .cms-btn-icon {
+                display: block;
+            }
+        }
+    }
+
+    .toggle {
+        /* icons */
+        display: inline-block;
+        position: absolute;
+        top: 5px;
+        left: 3px;
+        //opacity: 0.5;
+
+        i {
+            font-size: 22px;
+            color: #a8a8a8;
+
+            &.ion-md-document {
+                padding-left: 4px;
+            }
+        }
+    }
+
+    ul {
+        // first level
+        list-style: none;
+        padding: 0px;
+
+        label {
+            padding-left: $leftPadding + $iconWidth;
+        }
+
+        .toggle {
+            left: 24px;
+        }
+
+        // second level
+        ul {
+            label {
+                padding-left: ($leftPadding * 2) + ($iconWidth);
+            }
+
+            .toggle {
+                left: 18px + 26px;
+            }
+
+            ul {
+                label {
+                    padding-left: 40px + 26px + 26px;
+                }
+
+                .toggle {
+                    left: 18px + 26px + 26px;
+                }
+            }
+        }
+    }
+
+    li.folder {
+        > .open {
+            > a.toggle {
+                //opacity: 0.15;
+                //transition: transform 0.3s;
+                //transform: translateY(-25%) rotate(90deg);
+            }
+        }
+    }
+
+    li.selected {
+        > label {
+            background-color: #EFEFEF;
+        }
+    }
+}
+
+
+
+
+.list-accordion label::before {
+    /* arrow icon */
+    font: normal normal normal 14px/1 FontAwesome;
+    left: 10px;
+    transform: translateY(-50%);
+    transition: transform 0.3s;
+}
+
+.no-touch .list-accordion ul label:hover,
+.no-touch .list-accordion ul a:hover {
+    background: #3c3f45;
+}
+.list-accordion > li:last-of-type > label,
+.list-accordion > li:last-of-type > a,
+.list-accordion > li > ul > li:last-of-type label,
+.list-accordion > li > ul > li:last-of-type a {
+    box-shadow: none;
+}
