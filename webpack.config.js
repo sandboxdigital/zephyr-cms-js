@@ -1,31 +1,17 @@
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Configuration - you can change these settings
 
-// Destination - where all the files are save after processing. Defaults to /public/assets but you can change to
-// something like public/wp-content/themes/THEME_NAME/assets for a Wordpress project
 
-const publicPath = 'dist';
-const assetPath = 'vendor/zephyr/';
-const distPath = '../frontend';
-//const distPath = publicPath + assetPath;
-const srcPath = "./";
+const distPath = './dist';
+const srcPath = "./src/";
 
-const watchPaths = [
-    srcPath + 'scss/*.scss',
-    srcPath + 'js/*.js',
-];
-
-let IS_HOT = process.env.WEBPACK_DEV_SERVER === 'true';
-let IS_DEV = process.env.NODE_ENV === 'dev';
-let IS_PROD = process.env.NODE_ENV === 'production';
-let IS_MIN = process.env.NODE_ENV === 'min';
+const IS_HOT = process.env.WEBPACK_DEV_SERVER === 'true';
 
 // Plugins
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let config = {
     entry: {
@@ -37,8 +23,8 @@ let config = {
 
     output: {
         path: path.resolve(__dirname, distPath),
-        filename: 'js/[name].js',
-        publicPath : IS_HOT ? 'http://localhost:8081/'+ assetPath : '/' + assetPath
+        filename: '[name].js',
+        publicPath : IS_HOT ? 'http://localhost:8081/'+ distPath : '/' + distPath
     },
 
     // optimization: {
@@ -65,9 +51,9 @@ let config = {
             skipFirstNotification: true
         }),
         new webpack.NamedModulesPlugin(),
-        new ExtractTextPlugin({
-            filename:"css/[name].css",
-            disable: IS_HOT
+        new MiniCssExtractPlugin({
+            filename: '[name].css',
+            chunkFilename: "[id].css"
         }),
         // new webpack.SourceMapDevToolPlugin({
         //     filename: 'js/[name].js.map',
@@ -76,15 +62,24 @@ let config = {
     ],
 
     module: {
-        rules: [{
-                test: /.js$/,
-                use: [{
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            },
+            {
+                test: /\.m?js$/,
+                include: [
+                    path.resolve('./src/js'),
+                    path.resolve('./node_modules/domtastic/src'),
+                ],
+                use: {
                     loader: 'babel-loader',
                     options: {
-                        // presets: ['@babel/preset-env'],
-                        cacheDirectory:'./babel-cache'
+                        presets: ['@babel/preset-env'],
+                        plugins: ['@babel/plugin-transform-runtime']
                     }
-                }],
+                }
             },
             {
                 test: /\.vue$/,
@@ -92,17 +87,31 @@ let config = {
             },
             {
                 test: /\.(sass|scss)$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader?url=false!sass-loader",
-                }),
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: IS_HOT,
+                            reloadAll: true,
+                        },
+                    },
+                    path.resolve('./src/webpack-libs/css-url-loader.js'),
+                    {loader:'css-loader', options: {url: false,}},
+                    'sass-loader',
+                ],
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: IS_HOT
+                        },
+                    },
+                    path.resolve('./src/webpack-libs/css-url-loader.js'),
+                    {loader:'css-loader', options: {url: false,}},
+                ],
             },
             {
                 test: /\.(png|jpg)$/,
@@ -116,7 +125,7 @@ let config = {
     },
 
     devServer: {
-        contentBase: path.resolve(__dirname, publicPath),
+        contentBase: path.resolve(__dirname, distPath),
         // host: '0.0.0.0',
         port: 8081,
         disableHostCheck: true,
